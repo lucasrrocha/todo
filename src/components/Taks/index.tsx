@@ -2,7 +2,6 @@ import { Text, View } from "react-native";
 import { Button } from "../Button";
 import { styles } from "./styles";
 
-import Trash from '../../assets/images/trash.png';
 import { AppColors } from "../../assets/styles/Colors";
 import { CheckboxComponent } from "../Checkbox";
 
@@ -29,8 +28,8 @@ export function Tasks({ task, onRemove, onValueChange, value }: Props) {
         {task}
       </Text>
       <Button
-        variant='filled'
-        icon={Trash}
+        variant='FILLED'
+        icon='trash-2'
         onPress={onRemove}
       />
     </View>

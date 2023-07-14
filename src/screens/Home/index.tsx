@@ -8,7 +8,6 @@ import { useState } from "react";
 import { Tasks } from "../../components/Taks";
 
 import Clipboard from '../../assets/images/Clipboard.png';
-import Plus from '../../assets/images/plus.png';
 
 interface Task {
   checked: boolean;
@@ -22,11 +21,11 @@ export function Home() {
 
   function handleNewTask() {
     if (taskDescription === '') {
-      return Alert.alert('Tarefa em branco!', 'Por favor, escreva uma tarefa para adicionar.')
+      return Alert.alert('Tarefa em branco!', 'Por favor, escreva uma tarefa para adicionar.');
     }
+
     setTasks(prevState => [...prevState, { checked: false, task: taskDescription }])
     setTaskDescription('')
-    console.log(tasks)
   }
 
   function handleRemoveTask(index: number) {
@@ -69,8 +68,8 @@ export function Home() {
             isFocused={isFocused}
           />
           <Button
-            variant='base'
-            icon={Plus}
+            variant='BASE'
+            icon='plus-circle'
             onPress={handleNewTask}
           />
         </View>
