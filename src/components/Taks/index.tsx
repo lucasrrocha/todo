@@ -1,8 +1,6 @@
-import { Text, View } from "react-native";
 import { Button } from "../Button";
-import { styles } from "./styles";
+import { Container, Task } from "./styles";
 
-import { AppColors } from "../../assets/styles/Colors";
 import { CheckboxComponent } from "../Checkbox";
 
 type Props = {
@@ -14,24 +12,22 @@ type Props = {
 
 export function Tasks({ task, onRemove, onValueChange, value }: Props) {
   return (
-    <View style={styles.container}>
+    <Container>
       <CheckboxComponent
         value={value}
         onValueChange={onValueChange}
       />
-      <Text style={[styles.task,
-      {
-        textDecorationLine: value ? 'line-through' : 'none',
-        color: value ? AppColors.gray300 : AppColors.gray100
-      }
-      ]}>
+
+      <Task value={value}>
         {task}
-      </Text>
+      </Task>
+
+
       <Button
         variant='FILLED'
         icon='trash-2'
         onPress={onRemove}
       />
-    </View>
+    </Container>
   );
 }
