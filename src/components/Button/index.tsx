@@ -1,22 +1,38 @@
-import { Image, TouchableHighlight } from "react-native";
-import { AppColors } from "../../assets/styles/Colors";
-import { styles } from "./styles";
+import { Feather } from '@expo/vector-icons';
+import { useCallback, useState } from 'react';
+import { PressableProps } from 'react-native';
+import { useTheme } from 'styled-components/native';
+import { ButtonTypeStyleProps, Container, Icon } from "./styles";
 
-
-type Props = {
-  variant: 'base' | 'filled';
-  onPress: () => void;
-  icon: number;
+type Props = PressableProps & {
+  icon: keyof typeof Feather.glyphMap;
+  variant: ButtonTypeStyleProps;
 }
 
-export function Button({ variant, onPress, icon }: Props) {
+export function Button({ icon, variant = 'BASE', ...rest }: Props) {
+  const { COLORS } = useTheme();
+  const [pressed, setPressed] = useState(false);
+
+  const handlePressIn = useCallback(() => setPressed(true), []);
+  const handlePressOut = useCallback(() => setPressed(false), []);
+
+  const hoverEffect = pressed
+    ? COLORS.BLUE
+    : COLORS.BLUE_DARK;
+
+  const hoverFilledEffect = pressed
+    ? COLORS.DANGER
+    : COLORS.GRAY_300;
+
   return (
-    <TouchableHighlight
-      style={variant === 'base' ? styles.base : styles.filled}
-      onPress={onPress}
-      underlayColor={variant === 'base' ? AppColors.blue : AppColors.gray700}
+    <Container
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      hover={hoverEffect}
+      variant={variant}
+      {...rest}
     >
-      <Image source={icon} />
-    </TouchableHighlight>
+      <Icon name={icon} variant={variant} hover={hoverFilledEffect} />
+    </Container>
   )
 }
