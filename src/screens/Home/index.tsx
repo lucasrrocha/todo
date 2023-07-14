@@ -1,11 +1,12 @@
-import { Alert, FlatList, Image, Text, View } from "react-native";
+import { useRef, useState } from "react";
+import { Alert, FlatList, Image, Text, TextInput, View } from "react-native";
+
 import { Button } from "../../components/Button";
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
-import { styles } from "./styles";
-
-import { useState } from "react";
 import { Tasks } from "../../components/Taks";
+
+import { styles } from "./styles";
 
 import Clipboard from '../../assets/images/Clipboard.png';
 
@@ -15,17 +16,21 @@ interface Task {
 }
 
 export function Home() {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [taskDescription, setTaskDescription] = useState('')
-  const [isFocused, setIsFocused] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [taskDescription, setTaskDescription] = useState('');
+
+  const newTaskNameInputRef = useRef<TextInput>(null);
 
   function handleNewTask() {
     if (taskDescription === '') {
       return Alert.alert('Tarefa em branco!', 'Por favor, escreva uma tarefa para adicionar.');
     }
 
+    //With inputRef the value of input doesn't clean
+    newTaskNameInputRef.current?.blur();
+
     setTasks(prevState => [...prevState, { checked: false, task: taskDescription }])
-    setTaskDescription('')
+    setTaskDescription('');
   }
 
   function handleRemoveTask(index: number) {
@@ -47,25 +52,16 @@ export function Home() {
     return checkedItems.length
   };
 
-  function handleFocus() {
-    setIsFocused(true)
-  }
-
-  function handleBlur() {
-    setIsFocused(false)
-  }
-
   return (
     <>
       <Header />
       <View style={styles.container}>
         <View style={{ flexDirection: 'row', top: -30 }}>
           <Input
+            inputRef={newTaskNameInputRef}
+            placeholder="Adicione uma nova tarefa"
             onChangeText={setTaskDescription}
             value={taskDescription}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            isFocused={isFocused}
           />
           <Button
             variant='BASE'

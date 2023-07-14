@@ -1,27 +1,30 @@
-import { TextInput } from "react-native";
-import { AppColors } from "../../assets/styles/Colors";
-import { styles } from "./styles";
+import { useState } from "react";
+import { TextInput, TextInputProps } from "react-native";
+import { Container } from "./styles";
 
-type Props = {
-  onChangeText: any;
-  value: string;
-  isFocused: boolean;
-  onFocus: () => void;
-  onBlur: () => void;
+type Props = TextInputProps & {
+  inputRef?: React.RefObject<TextInput>
 }
 
-export function Input({ onChangeText, value, onFocus, onBlur, isFocused }: Props) {
+
+export function Input({ inputRef, ...rest }: Props) {
+  const [isFocused, setIsFocused] = useState(false)
+
+  function handleOnFocus() {
+    setIsFocused(true)
+  }
+
+  function handleOnBlur() {
+    setIsFocused(false)
+  }
 
   return (
-    <TextInput
-      style={[styles.input, { borderColor: isFocused ? AppColors.purple : 'transparent', borderWidth: 1 }]}
-      placeholder='Adicione uma nova tarefa'
-      placeholderTextColor='#6B6B6B'
-      onChangeText={onChangeText}
-      value={value}
-      selectionColor={AppColors.gray100}
-      onFocus={onFocus}
-      onBlur={onBlur}
+    <Container
+      isFocused={isFocused}
+      onFocus={handleOnFocus}
+      onBlur={handleOnBlur}
+      ref={inputRef}
+      {...rest}
     />
 
   )
