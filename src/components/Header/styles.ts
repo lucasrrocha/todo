@@ -1,11 +1,12 @@
-import { StyleSheet } from "react-native";
-import { AppColors } from "../../assets/styles/Colors";
+import { styled } from "styled-components/native";
 
-export const styles = StyleSheet.create({
-  container: {
-    height: 173,
-    backgroundColor: AppColors.gray700,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-})
+export const Container = styled.View`
+  height: 173px;
+  
+  background-color: ${({ theme }) => theme.COLORS.GRAY_700};
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Logo = styled.Image``;
