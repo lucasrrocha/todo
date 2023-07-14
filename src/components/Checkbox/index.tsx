@@ -1,31 +1,45 @@
-import { Image, TouchableHighlight, View } from "react-native";
-import { styles } from "./styles";
+import { useCallback, useState } from "react";
+import { PressableProps } from "react-native";
+import { useTheme } from "styled-components/native";
+import { Container, Icon } from "./styles";
 
-import Checked from '../../assets/images/checked.png';
-import { AppColors } from "../../assets/styles/Colors";
-
-type Props = {
+type Props = PressableProps & {
   value: boolean;
   onValueChange: () => void;
 }
 
-export function CheckboxComponent({ value, onValueChange }: Props) {
+export function CheckboxComponent({ value, onValueChange, ...rest }: Props) {
+  const { COLORS } = useTheme();
+  const [pressed, setPressed] = useState(false);
+
+  const handlePressIn = useCallback(() => setPressed(true), []);
+  const handlePressOut = useCallback(() => setPressed(false), []);
+
+  function handleHoverEffect() {
+    if (value) {
+      return pressed
+        ? COLORS.PURPLE
+        : COLORS.PURPLE_DARK;
+    } else {
+      return pressed
+        ? COLORS.BLUE_DARK
+        : 'transparent'
+    }
+  }
+
+
   return (
-    <TouchableHighlight
-      style={[styles.container,
-      {
-        borderColor: value ? AppColors.purpleDark : AppColors.blue,
-        backgroundColor: value ? AppColors.purpleDark : AppColors.gray500,
-      }
-      ]}
+    <Container
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      value={value}
       onPress={onValueChange}
-      underlayColor={value ? AppColors.purple : AppColors.blueDark}
+      hover={handleHoverEffect}
+      {...rest}
     >
-      <View>
-        {value &&
-          <Image style={styles.checkbox} source={Checked} />
-        }
-      </View>
-    </TouchableHighlight>
+      {value &&
+        <Icon name='check' />
+      }
+    </Container>
   )
 }

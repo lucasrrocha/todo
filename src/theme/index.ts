@@ -3,7 +3,7 @@ export default {
     BLUE_DARK: '#1E6F9F',
     BLUE: '#4EA8DE',
 
-    PERPLE_DARK: '#5E60CE',
+    PURPLE_DARK: '#5E60CE',
     PURPLE: '#8284FA',
 
     GRAY_700: '#0D0D0D',
